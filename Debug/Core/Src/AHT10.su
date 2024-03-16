@@ -1,0 +1,5 @@
+AHT10.c:13:6:_AHT10_Error	8	static
+AHT10.c:19:6:_AHT10_TriggerMeasurements	16	static
+AHT10.c:27:6:_AHT10_ReadRaw	16	static
+AHT10.c:35:6:_AHT10_RawToHoomanVals	8	static
+AHT10.c:46:6:AHT10_Measure	8	static

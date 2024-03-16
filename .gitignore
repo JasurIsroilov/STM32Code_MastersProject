@@ -51,16 +51,16 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-# STM32 Cube IDE things
+#STM32CubeIDE things
 .metadata/
 .metadata
 .settings/
 .settings
 Debug/
 Drivers/
-*.ioc
-*.launch
-*.ld
-*.cproject
+.cproject
 .mxproject
 .project
+*.launch
+*.ioc
+*.ld
