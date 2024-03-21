@@ -32,6 +32,8 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#define DEVICE_ID "SecretToken"
+
 #define LED_GPIO_PORT GPIOA
 #define LED_PIN GPIO_PIN_5
 
@@ -66,6 +68,15 @@ void Error_Handler(void);
 #define B1_Pin GPIO_PIN_13
 #define B1_GPIO_Port GPIOC
 #define B1_EXTI_IRQn EXTI15_10_IRQn
+#define YL63_R_Pin GPIO_PIN_0
+#define YL63_R_GPIO_Port GPIOC
+#define YL63_R_EXTI_IRQn EXTI0_IRQn
+#define YL63_L_Pin GPIO_PIN_1
+#define YL63_L_GPIO_Port GPIOC
+#define YL63_L_EXTI_IRQn EXTI1_IRQn
+#define KY037_Pin GPIO_PIN_2
+#define KY037_GPIO_Port GPIOC
+#define KY037_EXTI_IRQn EXTI2_IRQn
 #define USART_TX_Pin GPIO_PIN_2
 #define USART_TX_GPIO_Port GPIOA
 #define USART_RX_Pin GPIO_PIN_3
