@@ -1,7 +1,10 @@
 #include "main.h"
+#include "ADC_Modules.h"
 #include "UART_Router.h"
 #include "BMP280.h"
 #include "AHT10.h"
+#include "FAN.h"
+#include "AirPump.h"
 
 extern UART_HandleTypeDef huart2;
 extern DMA_HandleTypeDef hdma_usart2_tx;
@@ -27,6 +30,20 @@ void Router_CommandHandler()
 			break;
 		case ROUTER_CMD_GET_DEVICE_ID:
 			sprintf(Router.MainBuff, "DEVICE_ID:%s\n", DEVICE_ID);
+			break;
+		case ROUTER_CMD_FAN_TOGGLE:
+			FAN_TOGGLE;
+			FAN_AnswerRequest();
+			break;
+		case ROUTER_CMD_RKPSS_ADC_VAL:
+			sprintf(Router.MainBuff, "RKPSS:%d\n", ADC1_Module.Data[0]);
+			break;
+		case ROUTER_CMD_WaterLevelSensor_ADC_VAL:
+			sprintf(Router.MainBuff, "WaterLevelSensor:%d\n", ADC1_Module.Data[1]);
+			break;
+		case ROUTER_CMD_AirPump_TOGGLE:
+			AirPump_TOGGLE;
+			AirPump_AnswerRequest();
 			break;
 	}
 

@@ -74,21 +74,22 @@ void Error_Handler(void);
 #define YL63_L_Pin GPIO_PIN_1
 #define YL63_L_GPIO_Port GPIOC
 #define YL63_L_EXTI_IRQn EXTI1_IRQn
-#define KY037_Pin GPIO_PIN_2
-#define KY037_GPIO_Port GPIOC
-#define KY037_EXTI_IRQn EXTI2_IRQn
 #define USART_TX_Pin GPIO_PIN_2
 #define USART_TX_GPIO_Port GPIOA
 #define USART_RX_Pin GPIO_PIN_3
 #define USART_RX_GPIO_Port GPIOA
 #define LD2_Pin GPIO_PIN_5
 #define LD2_GPIO_Port GPIOA
+#define AirPump_Pin GPIO_PIN_13
+#define AirPump_GPIO_Port GPIOB
 #define TMS_Pin GPIO_PIN_13
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
 #define SWO_Pin GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
+#define FAN_Pin GPIO_PIN_8
+#define FAN_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

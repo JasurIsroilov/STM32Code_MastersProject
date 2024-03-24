@@ -1,5 +1,8 @@
+"Core/Src/ADC_Modules.o"
 "Core/Src/AHT10.o"
+"Core/Src/AirPump.o"
 "Core/Src/BMP280.o"
+"Core/Src/FAN.o"
 "Core/Src/UART_Router.o"
 "Core/Src/main.o"
 "Core/Src/stm32f1xx_hal_msp.o"
