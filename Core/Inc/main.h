@@ -90,6 +90,8 @@ void Error_Handler(void);
 #define SWO_GPIO_Port GPIOB
 #define FAN_Pin GPIO_PIN_8
 #define FAN_GPIO_Port GPIOB
+#define IR_Lamp_Pin GPIO_PIN_9
+#define IR_Lamp_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

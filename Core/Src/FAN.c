@@ -15,10 +15,9 @@
 
 void FAN_AnswerRequest()
 {
-	if(HAL_GPIO_ReadPin(FAN_GPIO_Port, FAN_Pin) == GPIO_PIN_SET)
+	if(HAL_GPIO_ReadPin(FAN_GPIO_Port, FAN_Pin) == GPIO_PIN_RESET)
 		sprintf(Router.MainBuff, "FAN:%s\n", ROUTER_MSG_FAN_ON);
 	else
 		sprintf(Router.MainBuff, "FAN:%s\n", ROUTER_MSG_FAN_OFF);
 	return;
 }
-

@@ -16,6 +16,7 @@
 #define ROUTER_CMD_AirPump_TOGGLE 'a'
 #define ROUTER_CMD_RKPSS_ADC_VAL 's'
 #define ROUTER_CMD_WaterLevelSensor_ADC_VAL 'l'
+#define ROUTER_CMD_IR_LAMP_TOGGLE 'i'
 
 #define ROUTER_MSG_SOUND_DETECTED "SOUND\n"
 #define ROUTER_MSG_MOTOR_LEFT_BORDER "LEFT_BORDER\n"
@@ -24,6 +25,8 @@
 #define ROUTER_MSG_FAN_OFF "OFF"
 #define ROUTER_MSG_AirPump_ON "ON"
 #define ROUTER_MSG_AirPump_OFF "OFF"
+#define ROUTER_MSG_IR_LAMP_ON "ON"
+#define ROUTER_MSG_IR_LAMP_OFF "OFF"
 
 typedef struct {
 	uint8_t RxBuff[ROUTER_RX_BUFF_SIZE];

@@ -5,6 +5,7 @@
 #include "AHT10.h"
 #include "FAN.h"
 #include "AirPump.h"
+#include "IR_Lamp.h"
 
 extern UART_HandleTypeDef huart2;
 extern DMA_HandleTypeDef hdma_usart2_tx;
@@ -42,8 +43,12 @@ void Router_CommandHandler()
 			sprintf(Router.MainBuff, "WaterLevelSensor:%d\n", ADC1_Module.Data[1]);
 			break;
 		case ROUTER_CMD_AirPump_TOGGLE:
-			AirPump_TOGGLE;
+			AIR_PUMP_TOGGLE;
 			AirPump_AnswerRequest();
+			break;
+		case ROUTER_CMD_IR_LAMP_TOGGLE:
+			IR_LAMP_TOGGLE;
+			IR_Lamp_AnswerRequest();
 			break;
 	}
 

@@ -26,7 +26,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h \
  ../Core/Inc/ADC_Modules.h ../Core/Inc/AHT10.h ../Core/Inc/BMP280.h \
- ../Core/Inc/UART_Router.h
+ ../Core/Inc/UART_Router.h ../Core/Inc/IR_Lamp.h ../Core/Inc/main.h \
+ ../Core/Inc/AirPump.h ../Core/Inc/FAN.h
 
 ../Core/Inc/main.h:
 
@@ -89,3 +90,11 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/BMP280.h:
 
 ../Core/Inc/UART_Router.h:
+
+../Core/Inc/IR_Lamp.h:
+
+../Core/Inc/main.h:
+
+../Core/Inc/AirPump.h:
+
+../Core/Inc/FAN.h:

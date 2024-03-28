@@ -11,9 +11,9 @@
 #include "stm32f1xx_hal.h"
 #include "main.h"
 
-#define AirPump_ON HAL_GPIO_WritePin(AirPump_GPIO_Port, AirPump_Pin, GPIO_PIN_SET)
-#define AitPump_OFF HAL_GPIO_WritePin(AirPump_GPIO_Port, AirPump_Pin, GPIO_PIN_RESET)
-#define AirPump_TOGGLE HAL_GPIO_TogglePin(AirPump_GPIO_Port, AirPump_Pin)
+#define AIR_PUMP_ON HAL_GPIO_WritePin(AirPump_GPIO_Port, AirPump_Pin, GPIO_PIN_RESET)
+#define AIR_PUMP_OFF HAL_GPIO_WritePin(AirPump_GPIO_Port, AirPump_Pin, GPIO_PIN_SET)
+#define AIR_PUMP_TOGGLE HAL_GPIO_TogglePin(AirPump_GPIO_Port, AirPump_Pin)
 
 void AirPump_AnswerRequest();
 

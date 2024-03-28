@@ -15,7 +15,7 @@
 
 void AirPump_AnswerRequest()
 {
-	if(HAL_GPIO_ReadPin(AirPump_GPIO_Port, AirPump_Pin) == GPIO_PIN_SET)
+	if(HAL_GPIO_ReadPin(AirPump_GPIO_Port, AirPump_Pin) == GPIO_PIN_RESET)
 		sprintf(Router.MainBuff, "AirPump:%s\n", ROUTER_MSG_AirPump_ON);
 	else
 		sprintf(Router.MainBuff, "AirPump:%s\n", ROUTER_MSG_AirPump_OFF);
