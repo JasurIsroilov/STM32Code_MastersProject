@@ -36,11 +36,8 @@ void Router_CommandHandler()
 			FAN_TOGGLE;
 			FAN_AnswerRequest();
 			break;
-		case ROUTER_CMD_RKPSS_ADC_VAL:
-			sprintf(Router.MainBuff, "RKPSS:%d\n", ADC1_Module.Data[0]);
-			break;
 		case ROUTER_CMD_WaterLevelSensor_ADC_VAL:
-			sprintf(Router.MainBuff, "WaterLevelSensor:%d\n", ADC1_Module.Data[1]);
+			sprintf(Router.MainBuff, "WaterLevelSensor:%d - %hd\n", ADC1_Module.Level, ADC1_Module.Data[0]);
 			break;
 		case ROUTER_CMD_AirPump_TOGGLE:
 			AIR_PUMP_TOGGLE;

@@ -74,6 +74,9 @@ void Error_Handler(void);
 #define YL63_L_Pin GPIO_PIN_1
 #define YL63_L_GPIO_Port GPIOC
 #define YL63_L_EXTI_IRQn EXTI1_IRQn
+#define RKPSS_Pin GPIO_PIN_2
+#define RKPSS_GPIO_Port GPIOC
+#define RKPSS_EXTI_IRQn EXTI2_IRQn
 #define USART_TX_Pin GPIO_PIN_2
 #define USART_TX_GPIO_Port GPIOA
 #define USART_RX_Pin GPIO_PIN_3
