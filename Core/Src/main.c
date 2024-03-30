@@ -29,6 +29,7 @@
 #include "IR_Lamp.h"
 #include "AirPump.h"
 #include "FAN.h"
+#include "Stepper_Motor.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -54,6 +55,7 @@ I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
 
 TIM_HandleTypeDef htim1;
+TIM_HandleTypeDef htim3;
 
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
@@ -76,6 +78,7 @@ static void MX_I2C1_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_ADC1_Init(void);
+static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -98,7 +101,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	if(htim->Instance == TIM1)
 	{
-		LED_TOGGLE;
 		HAL_ADC_Start_DMA(&hadc1, (uint32_t*)&ADC1_Module.Data, ADC1_Module.NChannels);
 		if(AHT10_DataStruct.TriggerTimeCounter == AHT10_TRIGGER_MEASUREMENTS_PERIOD)
 		{
@@ -119,8 +121,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		{
 			AHT10_DataStruct.ReadDataTimerCounter++;
 		}
+		return;
 	}
-	return;
+	else if(htim->Instance == TIM3)
+	{
+		StepperMotor_HalfStep_RotateClockWise(&StepperMotor_1);
+	}
+
 }
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
@@ -128,10 +135,12 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	switch(GPIO_Pin)
 	{
 		case YL63_R_Pin:
+			StepperMotor_StopRotation(&StepperMotor_1, &htim3);
 			Router_UART_Transmit_DMA((uint8_t*)ROUTER_MSG_MOTOR_RIGHT_BORDER, strlen(ROUTER_MSG_MOTOR_RIGHT_BORDER));
 			break;
 
 		case YL63_L_Pin:
+			StepperMotor_StopRotation(&StepperMotor_1, &htim3);
 			Router_UART_Transmit_DMA((uint8_t*)ROUTER_MSG_MOTOR_LEFT_BORDER, strlen(ROUTER_MSG_MOTOR_LEFT_BORDER));
 			break;
 
@@ -194,6 +203,7 @@ int main(void)
   MX_TIM1_Init();
   MX_USART1_UART_Init();
   MX_ADC1_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 
   BMP280_Init();
@@ -203,8 +213,11 @@ int main(void)
   AIR_PUMP_OFF;
   FAN_OFF;
   IR_LAMP_OFF;
+  StepperMotor_Init(&StepperMotor_1);
+  StepperMotor_SetSpeed(&StepperMotor_1, &htim3, 10);
 
   HAL_TIM_Base_Start_IT(&htim1);
+  HAL_TIM_Base_Start_IT(&htim3);
 
   HAL_UARTEx_ReceiveToIdle_DMA(&huart2, Router.RxBuff, ROUTER_RX_BUFF_SIZE);
   __HAL_DMA_DISABLE_IT(&hdma_usart2_rx, DMA_IT_HT);
@@ -426,6 +439,51 @@ static void MX_TIM1_Init(void)
 }
 
 /**
+  * @brief TIM3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM3_Init(void)
+{
+
+  /* USER CODE BEGIN TIM3_Init 0 */
+
+  /* USER CODE END TIM3_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM3_Init 1 */
+
+  /* USER CODE END TIM3_Init 1 */
+  htim3.Instance = TIM3;
+  htim3.Init.Prescaler = 6400-1;
+  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim3.Init.Period = 15-1;
+  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM3_Init 2 */
+
+  /* USER CODE END TIM3_Init 2 */
+
+}
+
+/**
   * @brief USART1 Initialization Function
   * @param None
   * @retval None
@@ -534,10 +592,13 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, Stepper_A_Pin|Stepper_B_Pin|LD2_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, AirPump_Pin|FAN_Pin|IR_Lamp_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOC, Stepper_C_Pin|Stepper_D_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
@@ -551,12 +612,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : LD2_Pin */
-  GPIO_InitStruct.Pin = LD2_Pin;
+  /*Configure GPIO pins : Stepper_A_Pin Stepper_B_Pin LD2_Pin */
+  GPIO_InitStruct.Pin = Stepper_A_Pin|Stepper_B_Pin|LD2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : AirPump_Pin FAN_Pin IR_Lamp_Pin */
   GPIO_InitStruct.Pin = AirPump_Pin|FAN_Pin|IR_Lamp_Pin;
@@ -564,6 +625,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : Stepper_C_Pin Stepper_D_Pin */
+  GPIO_InitStruct.Pin = Stepper_C_Pin|Stepper_D_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);

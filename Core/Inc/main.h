@@ -77,6 +77,10 @@ void Error_Handler(void);
 #define RKPSS_Pin GPIO_PIN_2
 #define RKPSS_GPIO_Port GPIOC
 #define RKPSS_EXTI_IRQn EXTI2_IRQn
+#define Stepper_A_Pin GPIO_PIN_0
+#define Stepper_A_GPIO_Port GPIOA
+#define Stepper_B_Pin GPIO_PIN_1
+#define Stepper_B_GPIO_Port GPIOA
 #define USART_TX_Pin GPIO_PIN_2
 #define USART_TX_GPIO_Port GPIOA
 #define USART_RX_Pin GPIO_PIN_3
@@ -89,6 +93,10 @@ void Error_Handler(void);
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
+#define Stepper_C_Pin GPIO_PIN_10
+#define Stepper_C_GPIO_Port GPIOC
+#define Stepper_D_Pin GPIO_PIN_12
+#define Stepper_D_GPIO_Port GPIOC
 #define SWO_Pin GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
 #define FAN_Pin GPIO_PIN_8
