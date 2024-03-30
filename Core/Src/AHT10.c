@@ -6,7 +6,6 @@ extern I2C_HandleTypeDef hi2c1;
 
 extern UART_HandleTypeDef huart2;
 
-extern char MainBuffer[100];
 //------------------------------------------------------------
 uint8_t AHT10_TmpHum_Cmd[3] = {0xAC, 0x33, 0x00};
 //------------------------------------------------------------
@@ -23,8 +22,15 @@ void AHT10_Init()
 
 void _AHT10_Error()
 {
-	sprintf(Router.MainBuff, "AHT10 error\n");
+	sprintf(Router.MainBuff, "AHT10 error resetting...\n");
 	HAL_UART_Transmit_IT(&huart2, (uint8_t*)Router.MainBuff, strlen(Router.MainBuff));
+}
+
+void _AHT10_Reset()
+{
+	HAL_StatusTypeDef status = HAL_OK;
+	status = HAL_I2C_Master_Transmit_IT(&hi2c1, AHT10_ADDRESS, (uint8_t *) AHT10_RESET_VALUE, 1);
+	if(status != HAL_OK) _AHT10_Error();
 }
 
 void AHT10_TriggerMeasurements()

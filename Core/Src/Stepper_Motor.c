@@ -14,6 +14,7 @@ void StepperMotor_Init(StepperMotor_T *stepper)
 {
 	stepper->ntact = 0;
 	stepper->rpm = 0;
+	stepper->cw = 0;
 }
 
 void StepperMotor_SetSpeed(StepperMotor_T *stepper, TIM_HandleTypeDef *htim, uint8_t rpm)

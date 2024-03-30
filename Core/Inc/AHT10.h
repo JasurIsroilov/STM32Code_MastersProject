@@ -10,6 +10,7 @@
 //------------------------------------------------------------
 
 #define AHT10_ADDRESS 0x38 << 1
+#define AHT10_RESET_VALUE 0xBA
 
 #define AHT10_TRIGGER_MEASUREMENTS_PERIOD 10
 #define AHT10_READ_DATA_PERIOD 15

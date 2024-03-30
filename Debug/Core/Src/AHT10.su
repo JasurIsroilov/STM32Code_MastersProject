@@ -1,6 +1,7 @@
-AHT10.c:14:6:AHT10_Init	8	static
-AHT10.c:24:6:_AHT10_Error	8	static
-AHT10.c:30:6:AHT10_TriggerMeasurements	16	static
-AHT10.c:38:6:_AHT10_ReadRaw	16	static
-AHT10.c:46:6:_AHT10_RawToHoomanVals	8	static
-AHT10.c:57:6:AHT10_Measure	8	static
+AHT10.c:13:6:AHT10_Init	8	static
+AHT10.c:23:6:_AHT10_Error	8	static
+AHT10.c:29:6:_AHT10_Reset	16	static
+AHT10.c:36:6:AHT10_TriggerMeasurements	16	static
+AHT10.c:44:6:_AHT10_ReadRaw	16	static
+AHT10.c:52:6:_AHT10_RawToHoomanVals	8	static
+AHT10.c:63:6:AHT10_Measure	8	static

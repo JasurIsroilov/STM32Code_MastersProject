@@ -34,6 +34,7 @@ typedef struct
 {
 	uint8_t ntact; // Number of tact
 	uint8_t rpm; // Rotates per minute
+	uint8_t cw; // 1 if clockwise, 0 if counter clock wise
 } StepperMotor_T;
 
 StepperMotor_T StepperMotor_1;

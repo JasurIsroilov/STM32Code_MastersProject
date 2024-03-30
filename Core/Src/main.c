@@ -101,6 +101,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	if(htim->Instance == TIM1)
 	{
+		LED_TOGGLE;
 		HAL_ADC_Start_DMA(&hadc1, (uint32_t*)&ADC1_Module.Data, ADC1_Module.NChannels);
 		if(AHT10_DataStruct.TriggerTimeCounter == AHT10_TRIGGER_MEASUREMENTS_PERIOD)
 		{
@@ -125,7 +126,14 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	}
 	else if(htim->Instance == TIM3)
 	{
-		StepperMotor_HalfStep_RotateClockWise(&StepperMotor_1);
+		if(StepperMotor_1.cw)
+		{
+			StepperMotor_HalfStep_RotateClockWise(&StepperMotor_1);
+		}
+		else
+		{
+			StepperMotor_HalfStep_RotateCounterClockWise(&StepperMotor_1);
+		}
 	}
 
 }
@@ -135,11 +143,13 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	switch(GPIO_Pin)
 	{
 		case YL63_R_Pin:
+			StepperMotor_1.cw = 0;
 			StepperMotor_StopRotation(&StepperMotor_1, &htim3);
 			Router_UART_Transmit_DMA((uint8_t*)ROUTER_MSG_MOTOR_RIGHT_BORDER, strlen(ROUTER_MSG_MOTOR_RIGHT_BORDER));
 			break;
 
 		case YL63_L_Pin:
+			StepperMotor_1.cw = 1;
 			StepperMotor_StopRotation(&StepperMotor_1, &htim3);
 			Router_UART_Transmit_DMA((uint8_t*)ROUTER_MSG_MOTOR_LEFT_BORDER, strlen(ROUTER_MSG_MOTOR_LEFT_BORDER));
 			break;
@@ -634,13 +644,13 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(EXTI0_IRQn, 1, 0);
   HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 
-  HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(EXTI1_IRQn, 1, 0);
   HAL_NVIC_EnableIRQ(EXTI1_IRQn);
 
-  HAL_NVIC_SetPriority(EXTI2_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(EXTI2_IRQn, 1, 0);
   HAL_NVIC_EnableIRQ(EXTI2_IRQn);
 
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
